@@ -2,9 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;1,300&display=swap"> 
+  <link 
+    rel="stylesheet" 
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;1,300&display=swap" />
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
+  <div class="lorem">
+    <div class="lorem__input-group">
+      <label class="lorem__label" for="length">
+        Word Count
+      </label>
+      <input 
+        class="lorem__input lorem__input--word-length" 
+        type="number" 
+        name="length" 
+        id="length" 
+        value="50" />
+    </div>
+
+    <div class="lorem__input-group">
+      <button class="lorem__button lorem__button--save">
+        Save
+      </button>
+    </div>
+
+    <span class="lorem__saved-message">
+      Successfuly Saved!
+    </span>
+  </div>
   
+  <script src="./index.js"></script>
 </body>
 </html>
