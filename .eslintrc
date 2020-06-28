@@ -1,0 +1,21 @@
+{
+  "root": true,
+  "env": {
+    "jest": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "prettier"
+  ],
+  "plugins": ["prettier"],
+  "parserOptions": {
+    "ecmaVersion": 7,
+    "sourceType": "module",
+    "parser": "babel-eslint"
+  },
+  "rules": {
+    "prettier/prettier": ["error"]
+  }
+}
