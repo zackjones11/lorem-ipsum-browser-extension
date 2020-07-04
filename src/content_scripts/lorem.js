@@ -1,3 +1,5 @@
+const TRIGGER_KEY = 192;
+
 const Lorem = () => {
   const init = async () => {
     browser.runtime.onMessage.addListener(
@@ -16,12 +18,52 @@ const Lorem = () => {
     return inputs;
   };
 
-  const onKeyPress = (event) => {
-    console.log("key pressed in input", event);
+  const getWordCount = () => {
+    return new Promise((resolve) =>
+      browser.storage.local.get("wordCount", ({ wordCount }) =>
+        resolve(wordCount || 50)
+      )
+    );
   };
 
   const onWordCountChanged = ({ wordCount }) => {
     console.log("wordCount", wordCount);
+  };
+
+  const onKeyPress = async (event) => {
+    const { keyCode, target } = event;
+
+    if (keyCode === TRIGGER_KEY) {
+      const wordCount = await getWordCount();
+      const text = createLoremText(wordCount);
+
+      target.value = text;
+    }
+  };
+
+  const getLoremText = () => {
+    return `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+    Quisque sollicitudin libero ut urna auctor tristique. Maecenas 
+    lobortis vestibulum neque ut aliquam. In hac habitasse platea dictumst. 
+    Nunc blandit odio consequat venenatis volutpat.  Aenean vel commodo 
+    massa, sit amet sagittis libero. Mauris nunc nisl, volutpat et diam eu, 
+    pharetra congue nunc. Nam quis odio ac lacus cursus aliquet. Duis eu lacinia diam. 
+    Vestibulum tristique, dolor commodo faucibus egestas, nulla nisi aliquam risus, 
+    quis dignissim libero nibh et lacus. Praesent sed orci ut purus accumsan finibus. 
+    Aliquam ultricies efficitur dolor vel finibus. Phasellus odio massa, 
+    tincidunt in feugiat vel, porta a lectus. \n\n`;
+  };
+
+  const createLoremText = (wordCount) => {
+    const lorem = getLoremText();
+    const repeatBy = Math.ceil(wordCount / 100);
+
+    return lorem
+      .repeat(repeatBy)
+      .trim()
+      .split(" ")
+      .slice(0, wordCount)
+      .join(" ");
   };
 
   init();
