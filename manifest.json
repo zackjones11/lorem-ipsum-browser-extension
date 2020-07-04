@@ -16,6 +16,7 @@
     "default_popup": "src/views/popup.html"
   },
   "permissions": [
+    "activeTab",
     "storage"
 ]
 }

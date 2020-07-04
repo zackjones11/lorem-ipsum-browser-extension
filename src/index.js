@@ -1,13 +1,27 @@
 const Lorem = () => {
   const init = async () => {
-    const wordCount = await getWordCount();
-    console.log("init", wordCount);
+    browser.runtime.onMessage.addListener(
+      ({ wordCount }) => wordCount && onWordCountChanged({ wordCount })
+    );
+
+    addKeyEventsToInputs();
   };
 
-  const getWordCount = () => {
-    return new Promise((resolve) =>
-      browser.storage.local.get("wordCount", (res) => resolve(res.wordCount))
+  const addKeyEventsToInputs = () => {
+    const inputs = document.querySelectorAll("input, textarea");
+    inputs.forEach((input) =>
+      input.addEventListener("keyup", (event) => onKeyPress(event))
     );
+
+    return inputs;
+  };
+
+  const onKeyPress = (event) => {
+    console.log("key pressed in input", event);
+  };
+
+  const onWordCountChanged = ({ wordCount }) => {
+    console.log("wordCount", wordCount);
   };
 
   init();
