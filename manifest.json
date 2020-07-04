@@ -9,11 +9,11 @@
   },
   "content_scripts": [{
     "matches": ["<all_urls>"],
-    "js": ["src/index.js"]
+    "js": ["src/content_scripts/lorem.js"]
   }],
   "browser_action": {
     "default_title": "Lorem Ipsum Shortcut",
-    "default_popup": "src/views/popup.html"
+    "default_popup": "src/popup/lorem.html"
   },
   "permissions": [
     "activeTab",
