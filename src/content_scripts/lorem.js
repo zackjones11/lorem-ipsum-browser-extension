@@ -1,5 +1,3 @@
-const TRIGGER_KEY = 192;
-
 const Lorem = () => {
   const init = async () => {
     addKeyEventsToInputs();
@@ -23,10 +21,19 @@ const Lorem = () => {
     );
   };
 
+  const getKeyCodeTrigger = () => {
+    return new Promise((resolve) =>
+      browser.storage.local.get("keyCodeTrigger", ({ keyCodeTrigger }) =>
+        resolve(keyCodeTrigger)
+      )
+    );
+  };
+
   const onKeyPress = async (event) => {
     const { keyCode, target } = event;
+    const keyCodeTrigger = await getKeyCodeTrigger();
 
-    if (keyCode === TRIGGER_KEY) {
+    if (keyCode === keyCodeTrigger) {
       const wordCount = await getWordCount();
       const text = createLoremText(wordCount);
 
