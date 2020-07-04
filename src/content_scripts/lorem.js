@@ -2,10 +2,6 @@ const TRIGGER_KEY = 192;
 
 const Lorem = () => {
   const init = async () => {
-    browser.runtime.onMessage.addListener(
-      ({ wordCount }) => wordCount && onWordCountChanged({ wordCount })
-    );
-
     addKeyEventsToInputs();
   };
 
@@ -25,10 +21,6 @@ const Lorem = () => {
         resolve(wordCount)
       )
     );
-  };
-
-  const onWordCountChanged = ({ wordCount }) => {
-    console.log("wordCount", wordCount);
   };
 
   const onKeyPress = async (event) => {
