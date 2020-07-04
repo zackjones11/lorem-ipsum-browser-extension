@@ -14,7 +14,7 @@
   ],
   "plugins": ["prettier"],
   "parserOptions": {
-    "ecmaVersion": 7,
+    "ecmaVersion": 2017,
     "sourceType": "module",
     "parser": "babel-eslint"
   },
