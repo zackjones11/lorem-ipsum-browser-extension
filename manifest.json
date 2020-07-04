@@ -14,5 +14,8 @@
   "browser_action": {
     "default_title": "Lorem Ipsum Shortcut",
     "default_popup": "src/views/popup.html"
-  }
+  },
+  "permissions": [
+    "storage"
+]
 }
