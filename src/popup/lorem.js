@@ -1,4 +1,5 @@
 import getPopupElement from "./helpers/getPopupElement.js";
+import getWordCount from "./helpers/getWordCount.js";
 
 const LoremPopup = () => {
   const init = async () => {
@@ -11,12 +12,6 @@ const LoremPopup = () => {
 
     const saveButton = getPopupElement("SaveButton");
     saveButton.addEventListener("click", saveClicked);
-  };
-
-  const getWordCount = () => {
-    return new Promise((resolve) =>
-      browser.storage.local.get("wordCount", (res) => resolve(res.wordCount))
-    );
   };
 
   const saveClicked = () => {
