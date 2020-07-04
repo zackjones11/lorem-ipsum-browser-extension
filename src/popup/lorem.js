@@ -1,17 +1,22 @@
-import getPopupElement from "./helpers/getPopupElement.js";
-import getWordCount from "./helpers/getWordCount.js";
+import getPopupElement from "./getPopupElement.js";
 
+const DEFAULT_WORD_COUNT = 50;
 const LoremPopup = () => {
   const init = async () => {
     const wordCount = await getWordCount();
 
-    if (wordCount) {
-      const inputElement = getPopupElement("WordCountInput");
-      inputElement.value = wordCount;
-    }
+    sendData({ wordCount: wordCount || DEFAULT_WORD_COUNT });
 
     const saveButton = getPopupElement("SaveButton");
     saveButton.addEventListener("click", saveClicked);
+  };
+
+  const getWordCount = () => {
+    return new Promise((resolve) =>
+      browser.storage.local.get("wordCount", ({ wordCount }) =>
+        resolve(wordCount)
+      )
+    );
   };
 
   const saveClicked = () => {
@@ -24,15 +29,19 @@ const LoremPopup = () => {
       throw "Popup - Word Count is not a number";
     }
 
-    browser.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      sendData(tabs, data);
-    });
-
+    sendData(data);
     showSavedMessage();
   };
 
-  const sendData = (tabs, data) => {
-    browser.storage.local.set(data, () => storageUpdated(tabs, data));
+  const sendData = (data) => {
+    const queryOptions = { active: true, currentWindow: true };
+
+    browser.tabs.query(queryOptions, (tabs) => {
+      browser.storage.local.set(data, () => {
+        storageUpdated(tabs, data);
+        handleDataChange(data);
+      });
+    });
   };
 
   const storageUpdated = (tabs, data) => {
@@ -41,6 +50,12 @@ const LoremPopup = () => {
         throw error;
       });
     }
+  };
+
+  const handleDataChange = ({ wordCount }) => {
+    console.log("wordCount", wordCount);
+    const inputElement = getPopupElement("WordCountInput");
+    inputElement.value = wordCount;
   };
 
   const showSavedMessage = () => {

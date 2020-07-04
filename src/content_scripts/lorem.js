@@ -11,6 +11,7 @@ const Lorem = () => {
 
   const addKeyEventsToInputs = () => {
     const inputs = document.querySelectorAll("input, textarea");
+
     inputs.forEach((input) =>
       input.addEventListener("keyup", (event) => onKeyPress(event))
     );
@@ -21,7 +22,7 @@ const Lorem = () => {
   const getWordCount = () => {
     return new Promise((resolve) =>
       browser.storage.local.get("wordCount", ({ wordCount }) =>
-        resolve(wordCount || 50)
+        resolve(wordCount)
       )
     );
   };
