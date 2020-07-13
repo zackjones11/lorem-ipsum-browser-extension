@@ -13,20 +13,16 @@ const Lorem = () => {
     return inputs;
   };
 
-  const getWordCount = () => {
-    return new Promise((resolve) =>
-      browser.storage.local.get("wordCount", ({ wordCount }) =>
-        resolve(wordCount)
-      )
-    );
+  const getWordCount = async () => {
+    const { wordCount } = await browser.storage.local.get("wordCount");
+    return wordCount;
   };
 
-  const getKeyCodeTrigger = () => {
-    return new Promise((resolve) =>
-      browser.storage.local.get("keyCodeTrigger", ({ keyCodeTrigger }) =>
-        resolve(keyCodeTrigger)
-      )
+  const getKeyCodeTrigger = async () => {
+    const { keyCodeTrigger } = await browser.storage.local.get(
+      "keyCodeTrigger"
     );
+    return keyCodeTrigger;
   };
 
   const onKeyPress = async (event) => {

@@ -17,20 +17,16 @@ const LoremPopup = () => {
     saveButton.addEventListener("click", saveClicked);
   };
 
-  const getWordCount = () => {
-    return new Promise((resolve) =>
-      browser.storage.local.get("wordCount", ({ wordCount }) =>
-        resolve(wordCount)
-      )
-    );
+  const getWordCount = async () => {
+    const { wordCount } = await browser.storage.local.get("wordCount");
+    return wordCount;
   };
 
-  const getKeyCodeTrigger = () => {
-    return new Promise((resolve) =>
-      browser.storage.local.get("keyCodeTrigger", ({ keyCodeTrigger }) =>
-        resolve(keyCodeTrigger)
-      )
+  const getKeyCodeTrigger = async () => {
+    const { keyCodeTrigger } = await browser.storage.local.get(
+      "keyCodeTrigger"
     );
+    return keyCodeTrigger;
   };
 
   const saveClicked = () => {
@@ -53,23 +49,9 @@ const LoremPopup = () => {
     showSavedMessage();
   };
 
-  const sendData = (data) => {
-    const queryOptions = { active: true, currentWindow: true };
-
-    browser.tabs.query(queryOptions, (tabs) => {
-      browser.storage.local.set(data, () => {
-        storageUpdated(tabs, data);
-        handleDataChange(data);
-      });
-    });
-  };
-
-  const storageUpdated = (tabs, data) => {
-    for (let tab of tabs) {
-      browser.tabs.sendMessage(tab.id, data).catch((error) => {
-        throw error;
-      });
-    }
+  const sendData = async (data) => {
+    await browser.storage.local.set(data);
+    handleDataChange(data);
   };
 
   const handleDataChange = ({ wordCount, keyCodeTrigger }) => {
